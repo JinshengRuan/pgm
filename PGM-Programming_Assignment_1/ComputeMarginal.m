@@ -28,7 +28,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 M = struct('var', [], 'card', [], 'val', []); % Returns empty factor. Change this.
-
+M = ComputeJointDistribution(F);
+M = ObserveEvidence(M, E);
+M = FactorMarginalization(M, setdiff(M.var, V));
+M.val = M.val/sum(M.val);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 M = StandardizeFactors(M);
