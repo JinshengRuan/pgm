@@ -64,6 +64,17 @@ numAlleles = length(alleleFreqs); % Number of alleles
 % Variable numbers:
 % 1 - numPeople: genotype variables
 % numPeople+1 - 2*numPeople: phenotype variables
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+for i = 1:numPeople
+    if pedigree.parents(i,1) == 0 && pedigree.parents(i,2) == 0  
+        factorList(i) = genotypeGivenAlleleFreqsFactor(alleleFreqs, i);
+        factorList(i+numPeople) = phenotypeGivenGenotypeFactor(alphaList, i, i+numPeople);
+    else
+        parentOne = pedigree.parents(i,1);
+        parentTwo = pedigree.parents(i,2);
+        factorList(i) = genotypeGivenParentsGenotypesFactor(numAlleles, i, parentOne, parentTwo);
+        factorList(i+numPeople) = phenotypeGivenGenotypeFactor(alphaList, i, i+numPeople);
+    end
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  

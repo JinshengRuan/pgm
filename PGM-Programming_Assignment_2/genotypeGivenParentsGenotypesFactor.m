@@ -56,10 +56,35 @@ genotypeFactor = struct('var', [], 'card', [], 'val', []);
 %INSERT YOUR CODE HERE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
-% Fill in genotypeFactor.var.  This should be a 1-D row vector.
-% Fill in genotypeFactor.card.  This should be a 1-D row vector.
+% Fill in phenotypeFactor.var.  This should be a 1-D row vector.
+genotypeFactor.var = [genotypeVarChild,genotypeVarParentOne,genotypeVarParentTwo];
+% Fill in phenotypeFactor.card.  This should be a 1-D row vector.
+genotypeFactor.card = [size(genotypesToAlleles,1),size(genotypesToAlleles,1),size(genotypesToAlleles,1)];
 
 genotypeFactor.val = zeros(1, prod(genotypeFactor.card));
-% Replace the zeros in genotypeFactor.val with the correct values.
+% Replace the zeros in phentoypeFactor.val with the correct values.
+
+for i = 1:size(genotypesToAlleles,1)
+    for j = 1:size(genotypesToAlleles,1)
+        allelePairOne = genotypesToAlleles(i,:);
+        allelePairTwo = genotypesToAlleles(j,:);
+        
+        table(1,:)=[allelePairOne(1),allelePairTwo(1)];
+        table(2,:)=[allelePairOne(1),allelePairTwo(2)];
+        table(3,:)=[allelePairOne(2),allelePairTwo(1)];
+        table(4,:)=[allelePairOne(2),allelePairTwo(2)];
+        
+        for k = 1:size(genotypesToAlleles,1)
+            allelePairChild = genotypesToAlleles(k, :);
+            if allelePairChild(1) ~= allelePairChild(2)
+                p = (sum(ismember(table,[allelePairChild(1),allelePairChild(2)], 'rows')) + sum(ismember(table,[allelePairChild(2),allelePairChild(1)], 'rows'))) * 0.25;
+            else
+                p = sum(ismember(table,[allelePairChild(1),allelePairChild(1)], 'rows')) * 0.25;
+            end
+            genotypeFactor = SetValueOfAssignment(genotypeFactor, [k,i,j], p);
+        end
+    end
+end
+    
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
