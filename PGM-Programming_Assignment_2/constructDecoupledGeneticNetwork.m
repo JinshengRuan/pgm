@@ -67,7 +67,6 @@ numPeople = length(pedigree.names);
 % for the CPD at each of 2 parental copies of the gene and a factor for the 
 % CPD at the phenotype Note that the order of the factors in the list does 
 % not matter.
-factorList(3*numPeople) = struct('var', [], 'card', [], 'val', []);
 
 % Initialize factors
 factorList(3*numPeople) = struct('var', [], 'card', [], 'val', []);
