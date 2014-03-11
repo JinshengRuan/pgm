@@ -16,7 +16,7 @@ if (isempty(A.var)), C = B; return; end;
 if (isempty(B.var)), C = A; return; end;
 
 % Check that variables in both A and B have the same cardinality
-[dummy iA iB] = intersect(A.var, B.var);
+[dummy, iA, iB] = intersect(A.var, B.var);
 if ~isempty(dummy)
 	% A and B have at least 1 variable in common
 	assert(all(A.card(iA) == B.card(iB)), 'Dimensionality mismatch in factors');
@@ -38,8 +38,8 @@ C.var = union(A.var, B.var);
 % then, mapA = [2 1 3] and mapB = [3 4]; mapA(1) = 2 because A.var(1) = 3
 % and C.var(2) = 3, so A.var(1) == C.var(2).
 
-[dummy, mapA] = ismember(A.var, C.var);
-[dummy, mapB] = ismember(B.var, C.var);
+[~, mapA] = ismember(A.var, C.var);
+[~, mapB] = ismember(B.var, C.var);
 
 % Set the cardinality of variables in C
 C.card = zeros(1, length(C.var));
