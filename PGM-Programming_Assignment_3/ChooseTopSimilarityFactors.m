@@ -23,7 +23,15 @@ if (length(allFactors) <= F)
 end
 
 % Your code here:
-factors = allFactors; %%% REMOVE THIS LINE
+similarity = zeros(length(allFactors),1);
+factors = repmat(struct('var', [], 'card', [], 'val', []), F, 1);
+for i = 1:length(allFactors)
+    similarity(i) = sum(allFactors(i).val);
+end
+[dummy,IX] = sort(similarity, 'descend');
+for i = 1:F
+    factors(i) = allFactors(IX(i));
+end
 
 end
 
