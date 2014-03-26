@@ -44,6 +44,15 @@ B.val = [];
 % YOUR CODE HERE
 % Correctly set up and populate the factor values of B
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+B.card = A.card(mapB);
+B.val = log(zeros(1,prod(B.card)));
+
+assignments = IndexToAssignment(1:length(A.val), A.card);
+indexB = AssignmentToIndex(assignments(:,mapB), B.card);
+
+for i = 1:length(A.val)
+    B.val(indexB(i)) = max(B.val(indexB(i)), A.val(i));
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end

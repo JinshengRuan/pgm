@@ -39,7 +39,30 @@ P.edges = zeros(N);
 % Print out C to get a better understanding of its structure.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+P.edges = C.edges;
 
+nFactors = length(C.factorList);
 
+card = [];
+for k = 1:nFactors
+    card(C.factorList(k).var) = C.factorList(k).card;
+end
+
+factorSlots = ones(1, nFactors);
+
+for i = 1:N
+    for m = 1:length(C.nodes{i})
+        P.cliqueList(i).var(m) = C.nodes{i}(m);
+        P.cliqueList(i).card(m) = card(C.nodes{i}(m));
+    end
+    P.cliqueList(i).val = ones(1, prod(P.cliqueList(i).card));
+    for j = find(factorSlots)
+        if all(ismember(C.factorList(j).var, C.nodes{i}))
+            P.cliqueList(i) = FactorProduct(P.cliqueList(i), C.factorList(j));
+            factorSlots(j) = 0;
+        end
+    end
+end
+    
 end
 

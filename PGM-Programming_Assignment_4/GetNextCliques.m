@@ -34,6 +34,26 @@ j = 0;
 % YOUR CODE HERE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+for i = 1:size(messages,1)
+    for j = 1:size(messages,2)
+        if P.edges(i, j) && isempty(messages(i, j).var)
+            neighbors = find(P.edges(i, :));
+            flag = 0;
+            for n = setdiff(neighbors, [j])
+                if isempty(messages(n, i).var)
+                    flag = 1;
+                    break;
+                end
+            end
+            
+            if ~flag
+                return;
+            end
+        end
+    end
+end
 
+i = 0;
+j = 0;
 
 return;
