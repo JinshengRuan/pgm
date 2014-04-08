@@ -33,8 +33,21 @@ end;
 % YOUR CODE HERE
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+P.clusterList = F;
 
+N = length(F); 
+P.edges = zeros(N);
 
+for i = 1:N-1
+    for j = i+1:N
+        if (length(F(i).var) == 1 || length(F(j).var) == 1)...
+            && ~isempty(intersect(F(i).var, F(j).var))
+            P.edges(i,j) = 1;
+            P.edges(j,i) = 1;
+        end
+    end
+end
 
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -53,7 +53,17 @@ LogBS = zeros(1, d);
 %
 % Also you should have only ONE for-loop, as for-loops are VERY slow in matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Factors = unique([G.var2factors{V}]);
 
+for i = 1:length(Factors)
+    FactorIn = F(Factors(i));
+    C = setdiff(FactorIn.var, V);
+    E = [C' A(C)'];
+    FactorIn = ObserveEvidence(FactorIn, E);
+    FactorIn = FactorMarginalization(FactorIn, C);
+    assignment = (1:d)' * ones(1, length(FactorIn.var));
+    LogBS = LogBS + log(GetValueOfAssignment(FactorIn, assignment));
+end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Re-normalize to prevent underflow when you move back to probability space

@@ -23,7 +23,8 @@ thresh = 1.0e-6;
 % YOUR CODE HERE
 % 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+diff = abs([mNew.val] - [mOld.val]);
+converged = isempty(find(diff > thresh, 1));
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

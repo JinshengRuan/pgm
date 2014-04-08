@@ -29,6 +29,14 @@ function [i, j] = NaiveGetNextClusters(P, m)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    [from, to] = find(P.edges);
+    pairs = sortrows([from, to], [2, 1]);
+    M = size(pairs, 1);
+    k = mod(m, M) + 1;
+    
+    i = pairs(k, 1);
+    j = pairs(k, 2);
+    
 
 end
 

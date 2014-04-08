@@ -45,7 +45,10 @@ for m = 1:length(edgeFromIndx),
     % The matlab/octave functions 'intersect' and 'find' may
     % be useful here (for making your code faster)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+    [var, idxI, ~] = intersect(P.clusterList(i).var, P.clusterList(j).var);
+    MESSAGES(i, j).var = var;
+    MESSAGES(i, j).card = P.clusterList(i).card(idxI);
+    MESSAGES(i, j).val = ones(1, prod(MESSAGES(i, j).card));
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end;
@@ -73,7 +76,15 @@ while (1),
     % The function 'setdiff' may be useful to help you
     % obtain some speedup in this function
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    Ci = P.clusterList(i);
+    for k=edgeFromIndx(edgeToIndx == i)
+        if k ~= j
+            Ci = FactorProduct(Ci, MESSAGES(k, i));
+        end
+    end
     
+    MESSAGES(i, j) = FactorMarginalization(Ci, setdiff(Ci.var, MESSAGES(i, j).var));
+    MESSAGES(i, j).val = MESSAGES(i, j).val / sum(MESSAGES(i, j).val);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
